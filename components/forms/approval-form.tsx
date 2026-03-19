@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { Approval, ApprovalCategory, ApprovalStatus } from "@/lib/types";
 import { CATEGORY_LABELS, STATUS_LABELS, CATEGORY_ORDER, generateId } from "@/lib/utils";
@@ -30,6 +30,7 @@ export default function ApprovalForm({
   onClose,
 }: ApprovalFormProps) {
   const isEdit = !!approval;
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const [name, setName] = useState(approval?.name ?? "");
   const [category, setCategory] = useState<ApprovalCategory>(approval?.category ?? "other");
@@ -49,6 +50,20 @@ export default function ApprovalForm({
 
   const showActualDate = status === "approved" || status === "approved-with-conditions";
   const availableDeps = otherApprovals.filter((a) => a.id !== approval?.id);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+      onClose();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,8 +106,11 @@ export default function ApprovalForm({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={handleBackdropClick}
+    >
+      <div ref={panelRef} className="bg-gray-900 border border-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 animate-in">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">
             {isEdit ? "Edit Approval" : "Add Approval"}
@@ -104,7 +122,7 @@ export default function ApprovalForm({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className={labelClass}>Name *</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} required />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} required autoFocus />
           </div>
 
           <div className="grid grid-cols-2 gap-4">

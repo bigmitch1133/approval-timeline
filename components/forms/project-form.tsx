@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 interface ProjectFormProps {
@@ -10,6 +10,21 @@ interface ProjectFormProps {
 
 export default function ProjectForm({ onSubmit, onClose }: ProjectFormProps) {
   const [name, setName] = useState("");
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+      onClose();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +34,11 @@ export default function ProjectForm({ onSubmit, onClose }: ProjectFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6">
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
+      onClick={handleBackdropClick}
+    >
+      <div ref={panelRef} className="bg-gray-900 border border-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6 animate-in">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">New Project</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-300 transition-colors">

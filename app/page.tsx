@@ -34,6 +34,7 @@ export default function HomePage() {
     };
     setProjects((prev) => [...prev, newProject]);
     setShowForm(false);
+    router.push(`/projects/${newProject.id}`);
   };
 
   const getApprovalCount = (projectId: string) =>
