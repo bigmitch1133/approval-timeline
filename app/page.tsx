@@ -19,8 +19,19 @@ export default function HomePage() {
   useEffect(() => {
     if (seeded) return;
     setSeeded(true);
-    const stored = localStorage.getItem("projects");
-    if (stored && JSON.parse(stored).length > 0) return;
+
+    // Check if data exists and is current (has SLED categories)
+    const storedApprovals = localStorage.getItem("approvals");
+    const storedProjects = localStorage.getItem("projects");
+    const hasData = storedProjects && JSON.parse(storedProjects).length > 0;
+    const isStale = storedApprovals && hasData &&
+      JSON.parse(storedApprovals).some((a: Approval) =>
+        ["zoning", "site-plan", "environmental", "building", "fire-life-safety"].includes(a.category)
+      );
+
+    if (hasData && !isStale) return;
+
+    // Seed fresh demo data (or replace stale data)
     const demo = createDemoData();
     setProjects([demo.project]);
     setApprovals(demo.approvals);
