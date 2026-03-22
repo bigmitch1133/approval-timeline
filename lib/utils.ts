@@ -28,26 +28,26 @@ export function generateId(): string {
 }
 
 export const CATEGORY_LABELS: Record<ApprovalCategory, string> = {
-  "rfp-response": "RFP Response",
-  "vendor-registration": "Vendor Registration",
-  compliance: "Compliance",
-  "security-privacy": "Security & Privacy",
-  "contract-legal": "Contract & Legal",
-  "budget-funding": "Budget & Funding",
-  "board-approval": "Board Approval",
-  implementation: "Implementation",
+  zoning: "Zoning",
+  "site-plan": "Site Plan",
+  environmental: "Environmental",
+  transportation: "Transportation",
+  utility: "Utility",
+  building: "Building",
+  "fire-life-safety": "Fire & Life Safety",
+  health: "Health",
   other: "Other",
 };
 
 export const CATEGORY_ORDER: ApprovalCategory[] = [
-  "rfp-response",
-  "vendor-registration",
-  "compliance",
-  "security-privacy",
-  "contract-legal",
-  "budget-funding",
-  "board-approval",
-  "implementation",
+  "zoning",
+  "site-plan",
+  "environmental",
+  "transportation",
+  "utility",
+  "building",
+  "fire-life-safety",
+  "health",
   "other",
 ];
 

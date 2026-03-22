@@ -179,7 +179,7 @@ export function getMonthInfos(windowStart: Date, windowEnd: Date): MonthInfo[] {
 // ─── Critical path ───────────────────────────────────────────────
 
 const CRITICAL_CATEGORIES: ApprovalCategory[] = [
-  "rfp-response", "compliance", "security-privacy", "contract-legal", "board-approval", "implementation",
+  "zoning", "site-plan", "building", "environmental", "transportation", "utility",
 ];
 
 export function computeCriticalPath(bars: BarData[]): Set<string> {

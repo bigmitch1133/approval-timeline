@@ -20,13 +20,13 @@ export default function HomePage() {
     if (seeded) return;
     setSeeded(true);
 
-    // Check if data exists and is current (has SLED categories)
+    // Check if data exists and is current (has CRE categories)
     const storedApprovals = localStorage.getItem("approvals");
     const storedProjects = localStorage.getItem("projects");
     const hasData = storedProjects && JSON.parse(storedProjects).length > 0;
     const isStale = storedApprovals && hasData &&
       JSON.parse(storedApprovals).some((a: Approval) =>
-        ["zoning", "site-plan", "environmental", "building", "fire-life-safety"].includes(a.category)
+        ["rfp-response", "vendor-registration", "compliance", "security-privacy", "board-approval"].includes(a.category)
       );
 
     if (hasData && !isStale) return;

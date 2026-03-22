@@ -1,12 +1,12 @@
 export type ApprovalCategory =
-  | "rfp-response"
-  | "vendor-registration"
-  | "compliance"
-  | "security-privacy"
-  | "contract-legal"
-  | "budget-funding"
-  | "board-approval"
-  | "implementation"
+  | "zoning"
+  | "site-plan"
+  | "environmental"
+  | "transportation"
+  | "utility"
+  | "building"
+  | "fire-life-safety"
+  | "health"
   | "other";
 
 export type ApprovalStatus =
